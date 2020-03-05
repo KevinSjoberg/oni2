@@ -123,6 +123,15 @@ if (process.platform == "linux") {
       CFBundleSignature: "????",
       CFBundleExecutable: "Oni2",
       NSHighResolutionCapable: true,
+      CFBundleDocumentTypes: package.build.fileAssociations.reduce((documentTypes, metadata) => {
+        documentTypes.push({
+          CFBundleTypeExtensions: metadata.ext.map(ext => ext.substr(1)),
+          CFBundleTypeName: metadata.name,
+          CFBundleTypeRole: metadata.role,
+        })
+
+        return documentTypes;
+      }, []),
   };
 
   fs.mkdirpSync(frameworksDirectory);
